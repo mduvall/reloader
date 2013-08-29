@@ -14,7 +14,13 @@ func main() {
 	}
 
 	done := make(chan bool)
-	transport := createTransport()
+
+	// TODO: pull this into a config file
+	transport, err := reloader.CreateTransport(map[string]string{})
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	go func() {
 		for {
@@ -36,8 +42,4 @@ func main() {
 	<-done
 
 	watcher.Close()
-}
-
-func createTransport() *reloader.Transport {
-	return &reloader.Transport{}
 }
