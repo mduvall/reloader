@@ -12,7 +12,7 @@ type Transporter interface {
 }
 
 type Transport struct {
-	connection *ssh.ClientConn
+	Connection *ssh.ClientConn
 }
 
 /**
@@ -34,7 +34,7 @@ func CreateTransport(transportParameters map[string]string) (*Transport, error) 
 		}
 		log.Println("established ssh connection: ", clientConn)
 
-		return &Transport{connection: clientConn}, nil
+		return &Transport{Connection: clientConn}, nil
 	}
 
 	return nil, errors.New("not a valid protocol")

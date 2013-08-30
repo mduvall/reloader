@@ -8,9 +8,10 @@ import (
 func main() {
 
 	done := make(chan bool)
-	// TODO: pull this into a config file
-	// transport, err := reloader.CreateTransport(map[string]string{})
 
+	// TODO: pull this into a config file
+
+	client, err := reloader.CreateTransport(map[string]string{})
 	server, err := reloader.CreateServer()
 	if err != nil {
 		log.Fatal(err)

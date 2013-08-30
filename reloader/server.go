@@ -3,6 +3,8 @@ package reloader
 import (
 	"github.com/mduvall/fsnotify2"
 	"log"
+	"net"
+	"net/rpc"
 )
 
 type Server struct {
@@ -41,6 +43,28 @@ func CreateServer() (s *Server, err error) {
 	}, nil
 }
 
-func (s *Server) ListenAtPath(path string) {
+type DummyEventEmitter struct{}
+type Response struct {
+	Sup string
+}
+type Request struct {
+	Sup string
+}
 
+func (d *DummyEventEmitter) Sup(request Request, res *Response) error {
+	res.Sup = "SUP!"
+	return nil
+}
+
+func (s *Server) Start(path string) error {
+	rpc.Register(&DummyEventEmitter{})
+	listener, err := net.Listen("unix", path)
+
+	if err != nil {
+		return err
+	}
+
+	go rpc.Accept(listener)
+
+	return nil
 }
