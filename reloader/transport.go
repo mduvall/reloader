@@ -15,6 +15,10 @@ type Transport struct {
 	connection *ssh.ClientConn
 }
 
+/**
+ * Establishes a session with the ClientConn and starts the netcat session
+ * for RPC
+ */
 func (t *Transport) Publish(message string) {
 	// Some voodoo here to actually send the string over the wire
 
